@@ -1,0 +1,1157 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>老師的使用說明書</title>
+<meta name="description" content="點選作答約 20 題，做出一本你的使用說明書，給家長、學生和同事看，存成圖片或 PDF 分享。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+<style>
+  /* Magazine 主題配色（DESIGN.md 02-D；此專案經伯爵紅茶同意用在介面）
+     鮮橘 --deco 只當色塊與裝飾，不當文字 */
+  :root {
+    --page: #dedccd;
+    --color-text: #323232;
+    --color-bg: #EBEBDF;
+    --paper: #ffffff;
+    --deco: #E9631A;
+    --mist: #A9C2E0;
+    --mist-soft: #dfe8f3;
+    --color-muted: #55554c;
+    --line: #d4d3c4;
+    --btn: #323232;
+    --btn-hover: #1f1f1f;
+    --btn-active: #000000;
+    --on-btn: #EBEBDF;
+    --color-focus: #4B63C3;
+    --error: #B42318;
+    --error-bg: #FFF1F0;
+    --error-border: #F4B4AD;
+    --c1-bg: #323232; --c1-fg: #EBEBDF;
+    --c2-bg: #E9631A; --c2-fg: #111111;
+    --c3-bg: #A9C2E0; --c3-fg: #323232;
+    --c4-bg: #ffffff; --c4-fg: #323232;
+    --font-zh: "Chiron GoRound TC", "Noto Sans TC", sans-serif;
+    --font-en: "Poppins", sans-serif;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --shadow: 0 2px 8px rgba(34, 7, 14, 0.06);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--page); color: var(--color-text);
+    font-family: var(--font-zh); font-size: 16px; line-height: 1.7;
+    min-height: 100vh;
+  }
+  button, input { font-family: inherit; }
+  [hidden] { display: none !important; }
+  :focus-visible { outline: 3px solid var(--color-focus); outline-offset: 3px; }
+
+  .app {
+    max-width: 480px; margin: 0 auto; min-height: 100vh;
+    background: var(--color-bg); display: flex; flex-direction: column;
+  }
+  .app.wide { max-width: 1000px; }
+  @media (min-width: 560px) {
+    body { padding: 32px 16px; }
+    .app { min-height: calc(100vh - 64px); border-radius: 28px; box-shadow: var(--shadow); }
+  }
+
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px 8px; font-size: 14px; }
+  .brand { font-weight: 700; }
+  .brand small { font-family: var(--font-en); font-size: 12px; margin-left: 4px; color: var(--color-muted); }
+  .count { font-family: var(--font-en); font-size: 14px; }
+  .progress { padding: 0 20px; }
+  .bars { display: flex; gap: 6px; }
+  .bars span { flex: 1; height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; }
+  .bars i { display: block; height: 100%; background: var(--deco); transition: width .25s; }
+  .bar-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--color-muted); margin-top: 2px; }
+  .bar-labels span { flex: 1; text-align: center; }
+
+  .screen { flex: 1; display: flex; flex-direction: column; padding: 8px 20px 24px; }
+  h1 { font-size: 28px; line-height: 1.35; margin: 12px 0 4px; }
+  h2 { font-size: 24px; line-height: 1.4; margin: 8px 0 4px; }
+  .hint { font-size: 14px; color: var(--color-muted); margin: 0 0 16px; }
+  .push { margin-top: auto; }
+
+  /* 按鈕 */
+  .btn {
+    font-size: 16px; font-weight: 700; line-height: 1.4; text-decoration: none;
+    border-radius: var(--radius-md); padding: 12px 24px; min-height: 48px; cursor: pointer;
+    border: 1px solid transparent; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn svg { width: 20px; height: 20px; flex: none; }
+  .btn-primary { background: var(--btn); color: var(--on-btn); }
+  .btn-primary:hover { background: var(--btn-hover); }
+  .btn-primary:active { background: var(--btn-active); }
+  .btn-primary:disabled { background: var(--line); color: var(--color-muted); cursor: not-allowed; }
+  .btn-ghost { background: transparent; color: var(--color-text); border-color: var(--color-text); }
+  .btn-ghost:hover { background: var(--paper); }
+  .btn-ghost:disabled { opacity: .35; cursor: not-allowed; }
+  .btn-danger { background: var(--error-bg); color: var(--error); border-color: var(--error-border); }
+  .btn-danger:hover { background: var(--error); color: #fff; border-color: var(--error); }
+  .btn-link { background: none; border: 0; color: var(--color-text); text-decoration: underline; padding: 12px; min-height: 44px; cursor: pointer; font-size: 14px; }
+  .btn-small { font-size: 14px; padding: 8px 16px; min-height: 40px; }
+  .full { width: 100%; }
+  .nav-row { display: flex; gap: 12px; margin-top: 24px; }
+  .nav-row .btn-primary { flex: 1; }
+
+  /* 開始畫面 */
+  .mini-wrap { display: flex; justify-content: center; padding: 8px 0 20px; }
+  .mini {
+    width: 170px; aspect-ratio: 3 / 4.2; border-radius: 6px 14px 14px 6px; padding: 16px 14px;
+    display: flex; flex-direction: column;
+    box-shadow: inset 8px 0 0 rgba(0,0,0,.12), 0 6px 16px rgba(34,7,14,.15);
+  }
+  .mini .model { font-family: var(--font-en); font-size: 10px; letter-spacing: .1em; border: 1.5px solid currentColor; border-radius: 4px; padding: 0 6px; align-self: flex-start; }
+  .mini .title { font-size: 20px; font-weight: 700; line-height: 1.3; margin-top: 18px; word-break: break-all; }
+  .mini .who { margin-top: auto; font-size: 12px; line-height: 1.5; }
+  .cover-1 { background: var(--c1-bg); color: var(--c1-fg); }
+  .cover-2 { background: var(--c2-bg); color: var(--c2-fg); }
+  .cover-3 { background: var(--c3-bg); color: var(--c3-fg); }
+  .cover-4 { background: var(--c4-bg); color: var(--c4-fg); }
+  .mini.cover-4 { box-shadow: inset 8px 0 0 rgba(0,0,0,.08), inset 0 0 0 1px var(--line), 0 6px 16px rgba(34,7,14,.15); }
+
+  .field { margin-bottom: 16px; display: block; }
+  .field > span { display: block; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .field > span em { font-style: normal; font-weight: 400; color: var(--color-muted); }
+  .field input { width: 100%; font-size: 16px; padding: 12px 14px; color: var(--color-text); border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); }
+  .chips { display: flex; gap: 8px; }
+  .chip { flex: 1; font-size: 16px; padding: 10px; min-height: 44px; cursor: pointer; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--color-text); }
+  .chip[aria-pressed="true"] { background: var(--btn); border-color: var(--btn); color: var(--on-btn); font-weight: 700; }
+  .swatches { display: flex; gap: 12px; }
+  .swatch { width: 44px; height: 44px; border-radius: 999px; cursor: pointer; border: 3px solid var(--color-bg); box-shadow: 0 0 0 1px var(--line); }
+  .swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--color-text); }
+  .error-msg { font-size: 14px; color: var(--error); background: var(--error-bg); border-radius: var(--radius-sm); padding: 8px 12px; margin: 0 0 12px; display: flex; gap: 8px; align-items: center; }
+  .error-msg svg { width: 18px; height: 18px; flex: none; }
+
+  /* 開始之前、目錄 */
+  .sheet { background: var(--paper); border-radius: var(--radius-lg); box-shadow: var(--shadow); padding: 20px; margin: 8px 0 0; border-top: 8px solid var(--deco); }
+  .kicker { font-family: var(--font-en); font-size: 12px; letter-spacing: .1em; color: var(--color-muted); }
+  .points { list-style: none; padding: 0; margin: 12px 0 0; }
+  .points li { display: flex; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+  .points li:first-child { border-top: 0; }
+  .points svg { width: 22px; height: 22px; flex: none; margin-top: 2px; }
+  .toc { list-style: none; padding: 0; margin: 8px 0 0; }
+  .toc li { border-top: 1px solid var(--line); }
+  .toc li:first-child { border-top: 0; }
+  .toc button { width: 100%; display: flex; align-items: baseline; gap: 12px; padding: 12px 0; background: none; border: 0; text-align: left; cursor: pointer; color: var(--color-text); font-size: 16px; }
+  .toc .no { font-family: var(--font-en); font-size: 14px; width: 28px; flex: none; }
+  .toc .t { flex: 1; font-weight: 700; }
+  .toc .t small { display: block; font-weight: 400; font-size: 14px; color: var(--color-muted); }
+  .toc .n { font-size: 14px; color: var(--color-muted); }
+  .toc .done .n::before { content: "✓ "; }
+
+  /* 作答 */
+  .chapter-tag { display: inline-block; align-self: flex-start; font-size: 14px; font-weight: 700; padding: 2px 12px; margin-top: 12px; border-radius: 999px; background: var(--mist); }
+  .options { display: flex; flex-direction: column; gap: 10px; margin: 16px 0 0; }
+  .option {
+    text-align: left; font-size: 16px; line-height: 1.5; padding: 14px 16px; cursor: pointer;
+    border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--paper); color: var(--color-text);
+    display: flex; gap: 12px; align-items: center;
+  }
+  .option .dot { flex: none; width: 22px; height: 22px; border-radius: 999px; border: 2px solid var(--line); display: grid; place-items: center; }
+  .option[aria-pressed="true"] { border-color: var(--btn); box-shadow: 0 0 0 1px var(--btn); }
+  .option[aria-pressed="true"] .dot { border-color: var(--btn); background: var(--btn); }
+  .option[aria-pressed="true"] .dot::after { content: ""; width: 8px; height: 8px; border-radius: 999px; background: var(--on-btn); }
+
+  .scale { margin: 20px 0 0; background: var(--paper); border-radius: var(--radius-md); padding: 16px; border: 1px solid var(--line); }
+  .scale-ends { display: flex; justify-content: space-between; gap: 16px; font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+  .scale-ends span:last-child { text-align: right; }
+  .scale-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .scale-row button {
+    height: 48px; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--color-bg);
+    cursor: pointer; font-family: var(--font-en); font-size: 16px; color: var(--color-text);
+  }
+  .scale-row button[aria-pressed="true"] { background: var(--deco); border-color: var(--deco); color: #111; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; }
+  .tag-btn {
+    font-size: 16px; padding: 10px 16px; min-height: 44px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: var(--paper); color: var(--color-text);
+  }
+  .tag-btn[aria-pressed="true"] { background: var(--btn); border-color: var(--btn); color: var(--on-btn); font-weight: 700; }
+  .tag-count { font-size: 14px; margin: 12px 0 0; color: var(--color-muted); }
+  .tag-count.warn { color: var(--error); }
+
+  .preview { font-size: 14px; background: var(--paper); border: 1px dashed var(--deco); border-radius: var(--radius-md); padding: 12px 14px; margin-top: 16px; }
+  .preview b { display: block; font-size: 12px; margin-bottom: 2px; }
+  .preview p { margin: 0 0 4px; }
+  .preview p:last-child { margin: 0; }
+
+  /* ===== 成品：翻頁說明書 ===== */
+  .vtabs { display: flex; gap: 4px; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px; margin: 8px 0 16px; max-width: 440px; }
+  .vtab { flex: 1; font-size: 14px; padding: 8px 4px; min-height: 44px; border: 0; border-radius: 999px; background: transparent; cursor: pointer; color: var(--color-text); }
+  .vtab[aria-selected="true"] { background: var(--btn); color: var(--on-btn); font-weight: 700; }
+
+  .spread { display: flex; justify-content: center; perspective: 1600px; }
+  .page {
+    width: 100%; max-width: 440px; min-height: 620px;
+    background: var(--color-bg); border-radius: var(--radius-lg);
+    box-shadow: 0 6px 20px rgba(34, 7, 14, .12);
+    padding: 28px 24px 20px; display: flex; flex-direction: column; position: relative; overflow: hidden;
+  }
+  @media (min-width: 900px) {
+    .spread.two .page:first-child { border-radius: var(--radius-lg) 4px 4px var(--radius-lg); box-shadow: inset -12px 0 16px -12px rgba(0,0,0,.15), 0 6px 20px rgba(34,7,14,.12); }
+    .spread.two .page:last-child { border-radius: 4px var(--radius-lg) var(--radius-lg) 4px; box-shadow: inset 12px 0 16px -12px rgba(0,0,0,.15), 0 6px 20px rgba(34,7,14,.12); }
+  }
+  .flip-next { animation: flipNext .35s ease; transform-origin: left center; }
+  .flip-prev { animation: flipPrev .35s ease; transform-origin: right center; }
+  @keyframes flipNext { from { transform: rotateY(-25deg); opacity: .3; } to { transform: none; opacity: 1; } }
+  @keyframes flipPrev { from { transform: rotateY(25deg); opacity: .3; } to { transform: none; opacity: 1; } }
+
+  .page-tag { align-self: flex-start; font-family: var(--font-en); font-size: 12px; letter-spacing: .1em; background: var(--btn); color: var(--on-btn); padding: 2px 10px; border-radius: 999px; margin-bottom: 4px; }
+  .page h3 { font-size: 24px; line-height: 1.4; margin: 4px 0 0; display: flex; align-items: center; gap: 8px; }
+  .page h3 svg { width: 26px; height: 26px; flex: none; }
+  .page .sub { font-size: 14px; color: var(--color-muted); margin: 0 0 20px; }
+  .page-foot {
+    margin-top: auto; padding-top: 16px; display: flex; justify-content: space-between; gap: 12px;
+    font-size: 12px; color: var(--color-muted); border-top: 1px solid var(--line);
+  }
+  .page-foot .pn { font-family: var(--font-en); }
+
+  /* 封面 */
+  .pg-cover .bar-top { position: absolute; inset: 0 0 auto 0; height: 14px; background: var(--deco); }
+  .pg-cover.cover-2 .bar-top { background: var(--c1-bg); }
+  .pg-cover .model { margin-top: 24px; display: inline-flex; flex-direction: column; align-self: flex-start; border: 2px solid currentColor; border-radius: var(--radius-sm); padding: 6px 12px; }
+  .pg-cover .model small { font-family: var(--font-en); font-size: 12px; letter-spacing: .12em; }
+  .pg-cover .model b { font-family: var(--font-en); font-size: 20px; letter-spacing: .04em; line-height: 1.3; }
+  .pg-cover h4 { font-size: 40px; line-height: 1.25; margin: 40px 0 8px; padding-right: 96px; word-break: break-all; }
+  .pg-cover h4 span { display: block; font-size: 24px; }
+  .pg-cover .tagline { margin: 0; }
+  .pg-cover .badge { position: absolute; right: 24px; top: 120px; width: 96px; height: 96px; border-radius: 50%; background: var(--deco); }
+  .pg-cover.cover-2 .badge { background: var(--c1-bg); }
+  .pg-cover .badge-text {
+    position: absolute; right: 24px; top: 120px; width: 96px; height: 96px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    font-size: 14px; font-weight: 700; line-height: 1.35; transform: translate(-8px, 8px);
+    color: var(--color-text); background: var(--color-bg); border: 2px solid var(--color-text);
+  }
+  .pg-cover dl { margin: auto 0 0; padding-top: 24px; display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; font-size: 14px; }
+  .pg-cover dt { font-weight: 700; }
+  .pg-cover dd { margin: 0; }
+  .pg-cover .page-foot { border-color: currentColor; color: inherit; }
+
+  /* 內頁元件 */
+  .lead p { margin: 0 0 12px; font-size: 16px; }
+  .lead .hello { font-size: 20px; font-weight: 700; }
+  .box { background: var(--paper); border-radius: var(--radius-md); padding: 12px 14px; margin: 0 0 12px; }
+  .box .who { display: inline-block; font-size: 12px; font-weight: 700; background: var(--mist); border-radius: 999px; padding: 0 10px; margin-bottom: 4px; }
+  .box .label { font-size: 14px; color: var(--color-muted); margin: 0; }
+  .box p { margin: 0; }
+  .self-note { font-size: 14px; background: var(--mist-soft); border-radius: var(--radius-sm); padding: 10px 12px; margin: 0 0 12px; }
+  .self-note b { display: block; }
+  .ptoc { list-style: none; margin: 0; padding: 0; }
+  .ptoc li { display: flex; align-items: baseline; gap: 8px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+  .ptoc li span:first-child { flex: 1; font-weight: 700; }
+  .ptoc li small { font-weight: 400; color: var(--color-muted); font-size: 14px; margin-left: 6px; }
+  .ptoc li .pn { font-family: var(--font-en); font-size: 14px; }
+
+  .spec { background: var(--paper); border-radius: var(--radius-md); padding: 12px 14px; margin: 0 0 12px; }
+  .spec-name { font-size: 14px; color: var(--color-muted); margin: 0; }
+  .spec-value { font-size: 20px; font-weight: 700; line-height: 1.4; margin: 0 0 6px; }
+  .meter-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--color-muted); }
+  .meter { flex: 0 1 160px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
+  .meter i { height: 8px; border-radius: 999px; background: var(--color-bg); border: 1px solid var(--line); }
+  .meter i.on { background: var(--deco); border-color: var(--deco); }
+  .spec-do { display: flex; gap: 6px; align-items: flex-start; margin: 8px 0 0; font-size: 14px; line-height: 1.6; }
+  .spec-do svg { width: 16px; height: 16px; flex: none; margin-top: 3px; }
+
+  .warn-box { border: 2px solid var(--color-text); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 14px; }
+  .warn-box .what { display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: var(--btn); color: var(--on-btn); font-weight: 700; }
+  .warn-box .what svg { width: 20px; height: 20px; flex: none; color: var(--deco); }
+  .warn-box .do { padding: 12px 14px; background: var(--paper); }
+  .warn-box .do small { display: block; font-size: 12px; color: var(--color-muted); }
+  .warn-box .do p { margin: 0; }
+
+  .review { background: var(--paper); border-radius: var(--radius-md); padding: 14px; margin: 0 0 12px; }
+  .review .stars { color: var(--deco); font-size: 16px; letter-spacing: 2px; }
+  .review p { margin: 2px 0 0; font-size: 18px; font-weight: 700; line-height: 1.5; }
+  .review small { font-size: 14px; color: var(--color-muted); }
+
+  .qcard-wrap { margin-bottom: 16px; }
+  .qcard { background: var(--paper); border-radius: var(--radius-lg); padding: 20px; border-top: 10px solid var(--deco); }
+  .qcard .for { font-size: 14px; font-weight: 700; display: inline-block; background: var(--mist); border-radius: 999px; padding: 2px 12px; }
+  .qcard h4 { font-size: 20px; line-height: 1.5; margin: 10px 0 14px; }
+  .qcard ol { list-style: none; margin: 0; padding: 0; counter-reset: q; }
+  .qcard li { counter-increment: q; display: grid; grid-template-columns: 32px 1fr; gap: 10px; margin-bottom: 14px; }
+  .qcard li::before {
+    content: counter(q); font-family: var(--font-en); font-size: 16px;
+    width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    background: var(--btn); color: var(--on-btn);
+  }
+  .qcard li b { display: block; font-size: 14px; }
+  .qcard .sign { font-size: 16px; font-weight: 700; margin: 6px 0 0; text-align: right; }
+  .qcard-wrap .btn { margin-top: 8px; }
+
+  .warranty { border: 2px dashed var(--color-text); border-radius: var(--radius-lg); padding: 16px; background: var(--paper); }
+  .warranty dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; margin: 0 0 12px; font-size: 14px; }
+  .warranty dt { font-weight: 700; }
+  .warranty dd { margin: 0; }
+  .warranty p { margin: 0 0 6px; }
+  .disclaimer { font-size: 12px; color: var(--color-muted); margin: 12px 0 0; }
+
+  /* 翻頁控制 */
+  .pager {
+    position: sticky; bottom: 0; z-index: 5; background: var(--color-bg);
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); margin-top: 8px;
+  }
+  .pager .mid { text-align: center; min-width: 0; }
+  .pager .btn { white-space: nowrap; flex: none; }
+  @media (max-width: 560px) { .pager .dots { display: none; } }
+  .dots { display: flex; gap: 6px; justify-content: center; }
+  .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+  .dots i.on { background: var(--color-text); width: 20px; border-radius: 999px; }
+  .pageno { font-family: var(--font-en); font-size: 14px; min-width: 56px; }
+  .export { display: flex; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
+  .export .btn { flex: 1; padding: 12px 8px; }
+  .after { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+  .notice { font-size: 14px; background: var(--paper); border-left: 4px solid var(--mist); border-radius: var(--radius-sm); padding: 10px 12px; margin-top: 16px; }
+
+  /* 匯出用：畫面外的固定寬度版本 */
+  #exportStage { position: fixed; left: -10000px; top: 0; display: flex; gap: 0; background: var(--page); }
+  #exportStage .page { width: 480px; max-width: none; box-shadow: none; border-radius: 0; }
+  #exportStage .card-stage { width: 540px; padding: 24px; background: var(--color-bg); }
+
+  /* 對話框 */
+  .overlay { position: fixed; inset: 0; background: rgba(20,20,20,.6); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 10; }
+  .dialog { background: var(--color-bg); border-radius: var(--radius-lg); max-width: 440px; width: 100%; max-height: calc(100vh - 32px); overflow: auto; padding: 20px; }
+  .dialog h2 { margin-top: 0; }
+  .dialog img { width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--line); display: block; margin: 8px 0 12px; }
+  .dialog .row { display: flex; gap: 12px; margin-top: 12px; }
+  .dialog .row .btn { flex: 1; }
+  .spinner { width: 28px; height: 28px; border: 3px solid var(--line); border-top-color: var(--deco); border-radius: 999px; animation: spin 1s linear infinite; margin: 8px auto; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } .flip-next, .flip-prev { animation: none; } }
+
+  .footer { text-align: center; font-size: 12px; color: var(--color-muted); padding: 8px 20px 20px; }
+
+  @media (max-width: 420px) {
+    .page { padding: 24px 18px 16px; min-height: 600px; }
+    .pg-cover h4 { font-size: 32px; padding-right: 84px; }
+    .pg-cover .badge, .pg-cover .badge-text { width: 84px; height: 84px; top: 112px; font-size: 12px; }
+    .pager .btn { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+  <div class="app" id="app">
+    <div class="topbar">
+      <span class="brand" id="topTitle"></span>
+      <span class="count" id="topCount"></span>
+    </div>
+    <div class="progress" id="progress" hidden>
+      <div class="bars" id="bars"></div>
+      <div class="bar-labels" id="barLabels"></div>
+    </div>
+    <main class="screen" id="screen"></main>
+    <div class="footer">這是自我整理的小工具，不是心理測驗。資料只存在這台裝置。· 設計：伯爵紅茶</div>
+  </div>
+
+  <div id="exportStage" aria-hidden="true"></div>
+  <div class="overlay" id="overlay" hidden><div class="dialog" id="dialog" role="dialog" aria-modal="true"></div></div>
+
+<script>
+/* ===== 題目資料（來源：題目v0.4.md）=====
+   aud：all＝三版都有｜family＝家長和學生｜parent＝給家長｜student＝給學生｜coworker＝給同事｜self＝只在完整版
+   homeroom：只有導師會看到（科任跳過）
+   spec 光譜題：5 格，1～2＝偏左、3＝中間、4～5＝偏右；pos＝[規格值, 給你的一句]
+   one 單選題：[選項, 說明書句子, 卡片版句子]
+   tags 挑標籤：self＝寫給自己（完整版）、out＝對外句、card＝卡片版、to＝給誰看 */
+const CHAPTERS = [
+  { no: 1, title: '我的教室', short: '教室', desc: '上課的樣子' },
+  { no: 2, title: '怎麼找我', short: '找我', desc: '聯絡和回訊息' },
+  { no: 3, title: '我的規則', short: '規則', desc: '作業和聯絡家長' },
+  { no: 4, title: '一起工作的我', short: '工作', desc: '備課、交代事情、開會' },
+  { no: 5, title: '我的能量', short: '能量', desc: '發光、地雷、充電' },
+  { no: 6, title: '別人眼中的我', short: '好評', desc: '用戶好評' }
+];
+
+const QUESTIONS = [
+  { id: '1-1', ch: 1, type: 'spec', aud: 'family', q: '上課時，我比較像？', ends: ['我帶著一步步做', '給方向，讓你自己試'],
+    name: '上課方式', l: '帶著做', r: '自己試',
+    pos: [['一步一步帶著做', '新東西，跟著我做就好。'], ['先教重點，再讓你試', '卡住了，隨時舉手問我。'], ['說清楚目標，讓你自己想', '卡住的地方，我們上課一起解決。']],
+    card: {
+      parent: ['孩子卡住時，我會一步一步陪著做。', '我會先教重點，再讓孩子自己試。', '我會說清楚目標，讓孩子自己想辦法。'],
+      student: ['新東西，我會一步一步陪你做。', '我會先教重點，再讓你自己試。', '我會說清楚目標，讓你自己想辦法。'] } },
+  { id: '1-2', ch: 1, type: 'spec', aud: 'family', q: '我心中理想的教室聲音？', ends: ['安靜專注', '熱鬧討論'],
+    name: '教室音量', l: '安靜', r: '熱鬧',
+    pos: [['偏安靜', '大家專心時，請你小聲說話。'], ['該討論時才討論', '我一喊停，請你馬上看我。'], ['熱鬧，常常討論', '有想法，就大聲說出來。']] },
+  { id: '1-3', ch: 1, type: 'spec', aud: 'family', q: '我的課堂節奏？', ends: ['照計畫走', '看當天狀況調整'],
+    name: '課堂節奏', l: '照計畫', r: '看狀況',
+    pos: [['照計畫走', '每週要上什麼，開學就排好了。'], ['有計畫，會改一點', '我會看大家的狀況，改一點點。'], ['看當天狀況上課', '同一課，每年上法都不一樣。']] },
+  { id: '1-4', ch: 1, type: 'spec', aud: 'family', q: '學生做錯的時候，我會？', ends: ['直接指出、示範正確做法', '用提問引導學生自己發現'],
+    name: '做錯的時候', l: '直接說', r: '問問題',
+    pos: [['直接告訴你', '我會做一次給你看，讓你馬上改。'], ['先給你提示', '還找不到，我再直接說給你聽。'], ['問你問題', '自己找到的答案，你會記得更久。']] },
+
+  { id: '2-1', ch: 2, type: 'one', aud: 'parent', q: '家長要找我，最好的方式是？', options: [
+    ['寫聯絡簿', '要找我，請寫在聯絡簿。我每天都會看。', '寫聯絡簿給我，我每天都會看。'],
+    ['LINE 私訊', '要找我，用 LINE 私訊最方便。打字給我，我能回得更清楚。', '用 LINE 打字給我最快。'],
+    ['打學校電話', '要找我，請打學校電話。我在上課的話，下課會回電給你。', '打學校電話給我，我下課會回電。'],
+    ['先約時間，當面談', '想好好聊，我們先約個時間。見面聊，我能專心聽你說。', '想好好聊，我們先約個時間。'] ] },
+  { id: '2-2', ch: 2, type: 'one', aud: 'student', q: '學生要找我，最好的方式是？', options: [
+    ['下課直接來找我', '有問題，下課直接來找我。越早問越好。', '下課直接來找我，越早問越好。'],
+    ['寫小紙條或聯絡簿', '不好意思說的話，可以寫紙條給我。寫在聯絡簿也可以。', '不好意思說，就寫紙條給我。'],
+    ['Classroom 或學校平台留言', '功課的問題，請在 Classroom 留言。我會一次回覆大家。', '功課問題，在 Classroom 留言給我。'],
+    ['先約午休或放學時間', '事情比較長，先跟我約時間。午休或放學，我能專心聽你說。', '事情比較長，跟我約午休或放學。'] ] },
+  { id: '2-3', ch: 2, type: 'one', aud: 'all', q: '訊息傳給我之後，我多久會回？', options: [
+    ['看到就回', '我看到訊息就會回。我在上課的話，下課才能回。', '我看到就回。'],
+    ['當天下午 5 點前', '白天的訊息，我下午 5 點前會回。', '我下午 5 點前會回。'],
+    ['每天晚上 9 點前統一回', '白天上課，我很難回訊息。我每天晚上 9 點前會回。', '我每天晚上 9 點前會回。'],
+    ['只在上班時間回', '我在上班時間回訊息。晚上和假日傳的，我上班時一定回你。急事可以打學校電話。', '我上班時間一定回，急事打學校電話。'] ] },
+  { id: '2-4', ch: 2, type: 'spec', aud: 'all', q: '傳訊息給我，怎麼寫我最好讀？', ends: ['一兩句重點就好', '前因後果講完整'],
+    name: '傳訊息給我', l: '一兩句', r: '說完整',
+    pos: [['一兩句重點就好', '這樣我能回得比較快。'], ['先寫重點，再說經過', '發生了什麼事，也請告訴我。'], ['把事情說完整', '發生什麼、為什麼，都寫給我。']] },
+  { id: '2-5', ch: 2, type: 'spec', aud: 'all', q: '有不同意見的時候？', ends: ['當下直接講', '先寫下來，給我時間想'],
+    name: '想法不一樣', l: '當下說', r: '先寫下來',
+    pos: [['當下直接說', '我不會生氣，也不會記在心上。'], ['事情結束再聊', '那時我們都比較冷靜。'], ['先寫下來給我', '我想清楚後，會好好回覆你。']] },
+
+  { id: '3-1', ch: 3, type: 'one', aud: 'family', q: '遲交了，補交怎麼算？', options: [
+    ['不收補交，準時才算', '作業要準時交。遲交的作業，我不收。這條規則，開學我就會講。'],
+    ['可以補交，會扣分', '作業可以補交，但會扣分。準時交，分數最高。'],
+    ['可以補交，不扣分', '作業可以補交，不會扣分。真的把它做完，最重要。'],
+    ['看原因，個別處理', '遲交時，我會先問原因。有困難請直接告訴我。我們一起想辦法。'] ] },
+  { id: '3-2', ch: 3, type: 'one', aud: 'parent', homeroom: true, q: '遲交的情況，什麼時候會找家長？', options: [
+    ['第一次就通知', '孩子遲交一次，我當天就會告訴你。'],
+    ['第 3 次才通知', '孩子遲交，我會先提醒孩子。遲交到第 3 次，我才會聯絡你。'],
+    ['每次段考後統一說明', '作業的狀況，我每次段考後告訴你。'],
+    ['通常自己跟學生處理', '作業的事，我通常直接跟孩子說。需要你幫忙時，我才會聯絡你。'] ] },
+  { id: '3-3', ch: 3, type: 'one', aud: 'parent', homeroom: true, q: '學生在學校有狀況（受傷、衝突），我會？', options: [
+    ['當下就打電話', '孩子受傷或吵架，我會馬上打電話給你。'],
+    ['當天放學前告知', '孩子受傷或吵架，我放學前會告訴你。'],
+    ['先跟學生談過，需要時才聯絡', '孩子有狀況，我會先跟孩子好好談。需要你一起幫忙時，我再聯絡你。'],
+    ['小事自己處理，每個月說明近況', '小事，我會在學校處理好。我每個月告訴你一次孩子的近況。大事，我當天一定聯絡你。'] ] },
+  { id: '3-4', ch: 3, type: 'one', aud: 'parent', homeroom: true, q: '最希望家長幫我的一件事？', options: [
+    ['每天看聯絡簿', '請你每天看聯絡簿。這是我們最常用的聯絡方式。', '每天看一下聯絡簿，我們就不會漏掉事情。'],
+    ['有疑問先問我', '有問題，直接來問我。很多事，一句話就能說清楚。', '有問題直接來問我，很多事一句話就說清楚。'],
+    ['讓孩子練習自己來', '讓孩子試著自己整理書包和作業。慢一點也沒關係。', '讓孩子試著自己整理書包，慢一點也沒關係。'] ] },
+  { id: '3-5', ch: 3, type: 'one', aud: 'student', q: '最希望學生做到的一件事？', options: [
+    ['遇到困難主動開口', '遇到困難，請你主動說出來。越早說，我越能幫你。'],
+    ['自己的事自己負責', '你的作業和東西，請自己負責。忘了帶，也要自己想辦法補。'],
+    ['安排自己的讀書進度', '請你試著自己排讀書的時間。會管理時間，比多考幾分重要。'],
+    ['尊重別人說話的時間', '別人說話時，請你好好聽。你說話時，大家也會好好聽你。'] ] },
+
+  { id: '4-1', ch: 4, type: 'one', aud: 'coworker', q: '一起備課時，我最擅長的角色？', options: [
+    ['出點子', '一起備課時，我很會想點子。我想太多時，請提醒我停一下。'],
+    ['把點子做成教材', '一起備課時，我很會做教材。大家的點子，我能做成上課用的東西。'],
+    ['排時程、分工', '一起備課時，交給我排時間和分工。事情會準時完成。'],
+    ['最後檢查細節', '一起備課時，交給我最後檢查。錯字和漏掉的地方，我都看得到。'] ] },
+  { id: '4-2', ch: 4, type: 'spec', aud: 'coworker', q: '交辦事情給我時？', ends: ['給我範例和步驟', '說明目的就好，做法交給我'],
+    name: '交代事情給我', l: '給範例', r: '說目的',
+    pos: [['給我範例和期限', '這樣我能做得又快又好。'], ['說明目的和大方向', '細節我自己補。'], ['說明目的就好', '怎麼做，可以放心交給我。']],
+    card: { coworker: ['給我一個範例和期限，我就能做得又快又好。', '說明目的和大方向，細節我會自己補。', '說明為什麼要做，怎麼做可以交給我。'] } },
+  { id: '4-3', ch: 4, type: 'spec', aud: 'coworker', q: '我的工作節奏？', ends: ['提早完成', '截止前衝刺'],
+    name: '工作節奏', l: '提早做完', r: '期限前衝刺',
+    pos: [['提早做完', '臨時的事，早一點告訴我，我更能幫上忙。'], ['每天做一點', '我一定在期限內做完。'], ['期限前衝刺', '看起來不急，但一定準時交。']] },
+  { id: '4-4', ch: 4, type: 'spec', aud: 'coworker', q: '開會，我比較喜歡？', ends: ['短會，能用訊息就不開', '當面一起討論'],
+    name: '開會', l: '短短的會', r: '見面一起想',
+    pos: [['短短的會', '要開會，請先告訴我要討論什麼。'], ['先說主題，會後分工', '開完會，請寫下誰要做什麼。'], ['見面一起想', '好點子，常常是聊出來的。']] },
+
+  { id: '5-1', ch: 5, type: 'tags', aud: 'all', min: 1, max: 3, q: '讓我發光的事', hint: '最多挑 3 個', items: [
+    { t: '看見學生成長', self: '學生弄懂了、進步了、主動來問我', out: '你弄懂了、進步了，記得告訴我。', outCo: '看見學生進步，是我最開心的事。' },
+    { t: '收到一句謝謝', self: '收到一句真心的謝謝', out: '一句謝謝，能讓我開心一整天。' },
+    { t: '被信任、被放手', self: '別人相信我，讓我自己去做', out: '放心交給我，我會好好做完。' },
+    { t: '做出好用的教材', self: '做出一份真的好用的教材', out: '我做的教材好用，請告訴我。' },
+    { t: '把麻煩事變簡單', self: '把麻煩的工作變簡單', out: '又麻煩又重複的事，可以找我一起想。' },
+    { t: '學到新東西', self: '學到一個新東西', out: '有好玩的新工具，歡迎跟我分享。' } ] },
+  { id: '5-2', ch: 5, type: 'tags', aud: 'all', min: 1, max: 3, q: '我的地雷', hint: '挑 1～3 個。給別人看時，會寫成「這樣做最好」', items: [
+    { t: '做事被打斷', self: '專心做事時，一直被打斷', out: '我在忙時，先留個訊息給我。我有空一定回你。', card: '我在忙時，留個訊息給我，我有空一定回。', to: ['parent', 'student', 'coworker'] },
+    { t: '臨時被交辦', self: '突然被丟來一件事', out: '早一點告訴我，我能做得更好。3 天前說最剛好。', card: '早一點告訴我，我能做得更好。', to: ['coworker'] },
+    { t: '下班後的訊息', self: '晚上和假日還要回訊息', out: '晚上和假日傳的訊息，我上班時一定回你。', to: ['parent', 'coworker'] },
+    { t: '在群組公開討論個別問題', self: '一個人的事，在群組被大家討論', out: '孩子個別的事，私訊給我，我能說得更清楚。', to: ['parent'] },
+    { t: '被拿來比較', self: '被拿去跟別班、別的老師比', out: '每個班、每個孩子，都有自己的步調。', to: ['parent', 'coworker'] },
+    { t: '答應的事沒做到', self: '說好的事沒有做到', out: '做不到也沒關係，先跟我說一聲就好。', to: ['student', 'coworker'] },
+    { t: '沒結論的會議', self: '開了很久，卻沒有決定的會', out: '開會前先知道要決定什麼，我能準備得更好。', to: ['coworker'] },
+    { t: '重複的行政表單', self: '一直重複填的表單', out: '', to: [] },
+    { t: '不尊重人的態度', self: '說話不尊重人', out: '我們好好說，事情一定談得開。', to: ['parent', 'student', 'coworker'] } ] },
+  { id: '5-3', ch: 5, type: 'tags', aud: 'self', min: 1, max: 2, q: '我的充電方式', hint: '挑 1～2 個', items: [
+    { t: '安靜的獨處時間', self: '一段沒人打擾的安靜時間', out: '午休我會安靜充電，下午更有精神。' },
+    { t: '一杯好茶或咖啡', self: '一杯好茶或咖啡', out: '想跟我變熟，一起喝杯茶吧。' },
+    { t: '找人聊聊天', self: '找信任的人聊聊天', out: '下課來聊天，我很歡迎。' },
+    { t: '運動或散步', self: '出去動一動、走一走', out: '' },
+    { t: '學一個新東西', self: '學一個新東西', out: '有好玩的研習，找我一起去。' },
+    { t: '好好睡一覺', self: '早點睡、睡飽一點', out: '' } ] },
+
+  { id: '6-1', ch: 6, type: 'tags', aud: 'all', min: 3, max: 3, q: '別人最常怎麼形容我？', hint: '挑 3 個，會變成「用戶好評」', items: [
+    { t: '點子很多', out: '點子好多，一起想事情不會卡住。' },
+    { t: '很有耐心', out: '問了好幾次，還是會慢慢教。' },
+    { t: '說到做到', out: '答應的事，一定會做到。' },
+    { t: '很會整理', out: '亂亂的東西，一下就整理好了。' },
+    { t: '幽默', out: '常常讓大家笑出來。' },
+    { t: '好溝通', out: '有話好好說，什麼事都能談。' },
+    { t: '細心', out: '很小的地方也會注意到。' },
+    { t: '行動力強', out: '說要做，馬上就動手。' },
+    { t: '溫暖', out: '你難過時，會先來關心你。' } ] }
+];
+
+const VERSIONS = {
+  family:   { label: '家長學生版', cover: '給家長和學生', readers: ['parent', 'student'] },
+  coworker: { label: '同事版', cover: '給一起工作的同事', readers: ['coworker'] },
+  full:     { label: '完整版', cover: '完整版・給自己留一本', readers: ['parent', 'student', 'coworker'] }
+};
+const READER = { parent: '給家長', student: '給學生', coworker: '給同事' };
+
+/* ===== 圖示（Lucide，outline 2px）===== */
+const svg = d => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>';
+const ICON = {
+  next: svg('<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>'),
+  right: svg('<path d="m9 18 6-6-6-6"/>'),
+  back: svg('<path d="m15 18-6-6 6-6"/>'),
+  image: svg('<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>'),
+  pdf: svg('<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/>'),
+  trash: svg('<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>'),
+  clock: svg('<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'),
+  hand: svg('<path d="M9 11V6a2 2 0 0 1 4 0v5"/><path d="M13 10V4a2 2 0 0 1 4 0v8"/><path d="M17 11a2 2 0 0 1 4 0v3a8 8 0 0 1-8 8h-1a8 8 0 0 1-7.4-5l-1.5-3.6a2 2 0 0 1 3.5-1.9L9 14V8"/>'),
+  save: svg('<path d="M12 13v8"/><path d="M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2"/><path d="m8 17 4 4 4-4"/>'),
+  alert: svg('<circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/>'),
+  caution: svg('<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>'),
+  arrow: svg('<polyline points="15 10 20 15 15 20"/><path d="M4 4v7a4 4 0 0 0 4 4h12"/>')
+};
+
+/* ===== 狀態：存在這台裝置的瀏覽器裡 ===== */
+const STORE_KEY = 'teacher-manual-v2';
+const blank = () => ({ step: 'setup', name: '', role: '', grade: '', cover: 3, answers: {}, version: 'family', published: '' });
+let state = load();
+function load() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORE_KEY));
+    if (saved && typeof saved === 'object') return Object.assign(blank(), saved);
+  } catch (e) { /* 讀不到就從頭開始 */ }
+  return blank();
+}
+function save() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* 無痕模式等情況存不了，不影響作答 */ }
+}
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const isHomeroom = () => state.role !== '科任';
+const visibleQuestions = () => QUESTIONS.filter(q => !(q.homeroom && !isHomeroom()));
+const qById = id => QUESTIONS.find(q => q.id === id);
+const steps = () => ['setup', 'intro', 'toc', ...visibleQuestions().map(q => q.id), 'done'];
+const ans = id => state.answers[id];
+const isAnswered = q => {
+  const a = ans(q.id);
+  if (q.type === 'tags') return Array.isArray(a) && a.length >= q.min;
+  return a != null;
+};
+const roleLabel = () => isHomeroom() ? '導師' : '科任老師';
+const who = () => (state.grade || '') + roleLabel();
+
+/* 光譜位置：1～2 偏左、3 中間、4～5 偏右 */
+const side = n => n <= 2 ? 0 : n === 3 ? 1 : 2;
+const specPick = q => q.pos[side(ans(q.id))];
+const oneText = (id, col = 1) => { const q = qById(id); const a = ans(id); return a == null || !q ? '' : (q.options[a][col] || q.options[a][1]); };
+const tagsPicked = id => { const q = qById(id); return (ans(id) || []).map(i => q.items[i]); };
+
+/* 學年：8 月起是新學年上學期；2～7 月是下學期 */
+function term(dateStr) {
+  const [y, m] = (dateStr || today()).split('.').map(Number);
+  const year = m >= 8 ? y - 1911 : y - 1912;
+  const sem = (m >= 8 || m === 1) ? 1 : 2;
+  return { year, sem, text: year + ' 學年' + (sem === 1 ? '上' : '下') + '學期', model: 'T' + year + '-' + sem };
+}
+function today() { return new Date().toISOString().slice(0, 10).replace(/-/g, '.'); }
+
+function go(step) {
+  state.step = step;
+  save();
+  render();
+  window.scrollTo(0, 0);
+  const h = document.querySelector('#screen h1, #screen h2');
+  if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
+}
+function move(delta) {
+  const list = steps();
+  const i = Math.max(0, list.indexOf(state.step));
+  const next = list[Math.min(list.length - 1, Math.max(0, i + delta))];
+  if (next === 'done') return finish();
+  go(next);
+}
+function finish() {
+  const missing = visibleQuestions().find(q => !isAnswered(q));
+  if (missing) return go(missing.id);
+  if (!state.published) state.published = today();
+  go('done');
+}
+
+/* ===== 作答畫面 ===== */
+const screen = document.getElementById('screen');
+const app = document.getElementById('app');
+
+function render() {
+  if (!steps().includes(state.step)) state.step = 'toc';
+  const s = state.step;
+  app.classList.toggle('wide', s === 'done');
+  renderTop(s);
+  if (s === 'setup') return renderSetup();
+  if (s === 'intro') return renderIntro();
+  if (s === 'toc') return renderToc();
+  if (s === 'done') return renderDone();
+  renderQuestion(qById(s));
+}
+
+function renderTop(s) {
+  const qs = visibleQuestions();
+  const cur = qById(s);
+  document.getElementById('progress').hidden = !cur;
+  document.getElementById('topCount').textContent = cur ? (qs.indexOf(cur) + 1) + ' / ' + qs.length : '';
+  document.getElementById('topTitle').innerHTML = cur
+    ? '第 ' + cur.ch + ' 章　' + CHAPTERS[cur.ch - 1].title
+    : '老師的使用說明書<small>by 伯爵紅茶</small>';
+  document.getElementById('bars').innerHTML = CHAPTERS.map(c => {
+    const inCh = qs.filter(q => q.ch === c.no);
+    const done = inCh.filter(isAnswered).length;
+    return '<span><i style="width:' + Math.round(done / inCh.length * 100) + '%"></i></span>';
+  }).join('');
+  document.getElementById('barLabels').innerHTML = CHAPTERS.map(c => '<span>' + c.short + '</span>').join('');
+}
+
+function miniHtml() {
+  return '<div class="mini cover-' + state.cover + '" id="mini">' +
+    '<span class="model">' + term(state.published).model + '</span>' +
+    '<div class="title"><span id="miniName">' + esc(state.name || '你的名字') + '</span><br>使用說明書</div>' +
+    '<div class="who" id="miniWho">' + esc(state.role ? who() : '') + '</div></div>';
+}
+
+function renderSetup() {
+  screen.innerHTML =
+    '<h1>做一本你的使用說明書</h1>' +
+    '<p class="hint">寫下名字，選好身分和封面顏色就能開始。用暱稱也可以。</p>' +
+    '<div class="mini-wrap">' + miniHtml() + '</div>' +
+    '<label class="field"><span>名字</span><input id="name" maxlength="12" autocomplete="off" placeholder="例如：小美老師" value="' + esc(state.name) + '"></label>' +
+    '<div class="field" role="group" aria-labelledby="roleLabel"><span id="roleLabel">我是</span><div class="chips" id="role">' +
+      ['導師', '科任'].map(r => '<button type="button" class="chip" data-v="' + r + '" aria-pressed="' + (state.role === r) + '">' + (r === '科任' ? '科任老師' : r) + '</button>').join('') +
+    '</div></div>' +
+    '<label class="field"><span>教的年級或科目 <em>（選填）</em></span><input id="grade" maxlength="14" autocomplete="off" placeholder="例如：三年二班、國中自然" value="' + esc(state.grade) + '"></label>' +
+    '<div class="field" role="group" aria-labelledby="coverLabel"><span id="coverLabel">封面顏色</span><div class="swatches" id="covers">' +
+      [3, 1, 2, 4].map(n => '<button type="button" class="swatch" style="background:var(--c' + n + '-bg)" aria-label="封面色 ' + n + '" data-v="' + n + '" aria-pressed="' + (state.cover === n) + '"></button>').join('') +
+    '</div></div>' +
+    '<p class="error-msg" id="setupError" hidden>' + ICON.alert + '<span></span></p>' +
+    '<button type="button" class="btn btn-primary full push" id="start">開始' + ICON.next + '</button>';
+
+  const refresh = () => {
+    document.getElementById('miniName').textContent = state.name || '你的名字';
+    document.getElementById('miniWho').textContent = state.role ? who() : '';
+    document.getElementById('mini').className = 'mini cover-' + state.cover;
+  };
+  document.getElementById('name').addEventListener('input', e => { state.name = e.target.value.trim(); save(); refresh(); });
+  document.getElementById('grade').addEventListener('input', e => { state.grade = e.target.value.trim(); save(); refresh(); });
+  pressGroup('role', v => { state.role = v; });
+  pressGroup('covers', v => { state.cover = Number(v); });
+  function pressGroup(id, set) {
+    const box = document.getElementById(id);
+    box.addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      box.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+      set(b.dataset.v); save(); refresh();
+    });
+  }
+  document.getElementById('start').addEventListener('click', () => {
+    const missing = !state.name ? '先寫下名字，才能印在封面上。' : !state.role ? '選一下你是導師還是科任老師，題目會跟著調整。' : '';
+    const box = document.getElementById('setupError');
+    if (missing) { box.hidden = false; box.querySelector('span').textContent = missing; return; }
+    go('intro');
+  });
+}
+
+function renderIntro() {
+  screen.innerHTML =
+    '<h1>開始之前</h1>' +
+    '<p class="hint">' + esc(state.name) + '，先跟你說好三件事。</p>' +
+    '<div class="sheet"><div class="kicker">BEFORE YOU START</div><ul class="points">' +
+      '<li>' + ICON.clock + '<div><b>大約 8 分鐘</b><br>一共 ' + visibleQuestions().length + ' 題，全部用點的。</div></li>' +
+      '<li>' + ICON.hand + '<div><b>沒有標準答案</b><br>選「最像現在的你」的那個，不是「應該要這樣」的那個。</div></li>' +
+      '<li>' + ICON.save + '<div><b>寫到一半可以先離開</b><br>答案會存在這台裝置，下次打開會接著寫。</div></li>' +
+    '</ul></div>' +
+    '<div class="nav-row push"><button type="button" class="btn btn-ghost" id="back" aria-label="上一頁">' + ICON.back + '</button>' +
+    '<button type="button" class="btn btn-primary" id="next">看目錄' + ICON.next + '</button></div>';
+  document.getElementById('back').onclick = () => move(-1);
+  document.getElementById('next').onclick = () => move(1);
+}
+
+function renderToc() {
+  const qs = visibleQuestions();
+  const firstOpen = qs.find(q => !isAnswered(q));
+  const started = qs.some(isAnswered);
+  screen.innerHTML =
+    '<h1>目錄</h1>' +
+    '<p class="hint">六個部分，點章節可以直接跳過去改答案。</p>' +
+    '<div class="sheet"><div class="kicker">CONTENTS</div><ol class="toc">' +
+      CHAPTERS.map(c => {
+        const inCh = qs.filter(q => q.ch === c.no);
+        const done = inCh.filter(isAnswered).length;
+        return '<li><button type="button" data-q="' + inCh[0].id + '" class="' + (done === inCh.length ? 'done' : '') + '"><span class="no">0' + c.no + '</span><span class="t">' + c.title + '<small>' + c.desc + '</small></span><span class="n">' + done + ' / ' + inCh.length + '</span></button></li>';
+      }).join('') +
+    '</ol></div>' +
+    '<div class="nav-row push"><button type="button" class="btn btn-ghost" id="back" aria-label="上一頁">' + ICON.back + '</button>' +
+    '<button type="button" class="btn btn-primary" id="next">' + (!started ? '從第一題開始' : firstOpen ? '繼續寫' : '看我的說明書') + ICON.next + '</button></div>';
+  screen.querySelector('.toc').addEventListener('click', e => { const b = e.target.closest('button'); if (b) go(b.dataset.q); });
+  document.getElementById('back').onclick = () => move(-1);
+  document.getElementById('next').onclick = () => firstOpen ? go(firstOpen.id) : finish();
+}
+
+/* 作答時的預覽：會印在說明書上的樣子 */
+function previewLines(q) {
+  if (!isAnswered(q) && !(q.type === 'tags' && (ans(q.id) || []).length)) return [];
+  if (q.type === 'spec') { const p = specPick(q); return [q.name + '：' + p[0], p[1]]; }
+  if (q.type === 'one') return [q.options[ans(q.id)][1]];
+  return tagsPicked(q.id).map(it => {
+    if (q.id === '5-2') return it.out ? it.t + ' → ' + it.out : it.t + '（只寫在完整版）';
+    if (q.id === '5-3') return it.out ? it.t + ' → ' + it.out : it.t + '（只寫在完整版）';
+    if (q.id === '6-1') return '★★★★★ ' + it.out;
+    return it.t + ' → ' + it.out;
+  });
+}
+
+function renderQuestion(q) {
+  const qs = visibleQuestions();
+  const n = qs.indexOf(q) + 1;
+  const firstInCh = qs.find(x => x.ch === q.ch) === q;
+  const last = n === qs.length;
+  let body = '';
+  let hint = '';
+  if (q.type === 'spec') {
+    hint = '點一格，最像你的位置。沒有對錯。';
+    body = '<div class="scale"><div class="scale-ends"><span>' + esc(q.ends[0]) + '</span><span>' + esc(q.ends[1]) + '</span></div>' +
+      '<div class="scale-row" id="opts" role="group" aria-label="' + esc(q.q) + '">' +
+      [1, 2, 3, 4, 5].map(v => '<button type="button" data-v="' + v + '" aria-label="第 ' + v + ' 格（' + (v <= 2 ? '偏向' + q.ends[0] : v === 3 ? '中間' : '偏向' + q.ends[1]) + '）" aria-pressed="' + (ans(q.id) === v) + '">' + v + '</button>').join('') +
+      '</div></div>';
+  } else if (q.type === 'one') {
+    hint = '選一個最像你的';
+    body = '<div class="options" id="opts" role="group" aria-label="' + esc(q.q) + '">' +
+      q.options.map((o, i) => '<button type="button" class="option" data-v="' + i + '" aria-pressed="' + (ans(q.id) === i) + '"><span class="dot"></span>' + esc(o[0]) + '</button>').join('') + '</div>';
+  } else {
+    hint = q.hint;
+    body = '<div class="tags" id="opts" role="group" aria-label="' + esc(q.q) + '">' +
+      q.items.map((it, i) => '<button type="button" class="tag-btn" data-v="' + i + '" aria-pressed="' + (ans(q.id) || []).includes(i) + '">' + esc(it.t) + '</button>').join('') + '</div>' +
+      '<p class="tag-count" id="tagCount" aria-live="polite"></p>';
+  }
+  screen.innerHTML =
+    '<span class="chapter-tag">' + (firstInCh ? '第 ' + q.ch + ' 章　' + CHAPTERS[q.ch - 1].title : '第 ' + n + ' 題') + '</span>' +
+    '<h2>' + esc(q.q) + '</h2>' +
+    '<p class="hint" style="margin:0">' + esc(hint) + '</p>' + body +
+    '<div class="preview" id="preview" aria-live="polite"><b>會寫進你的說明書：</b><div id="say"></div></div>' +
+    '<div class="nav-row push"><button type="button" class="btn btn-ghost" id="back" aria-label="上一題">' + ICON.back + '</button>' +
+    '<button type="button" class="btn btn-primary" id="next">' + (last ? '完成，看說明書' : '下一題') + '</button></div>';
+
+  const next = document.getElementById('next');
+  const refresh = (warn) => {
+    const lines = previewLines(q);
+    document.getElementById('say').innerHTML = lines.map(t => '<p>' + esc(t) + '</p>').join('');
+    document.getElementById('preview').hidden = !lines.length;
+    next.disabled = !isAnswered(q);
+    const a = ans(q.id);
+    document.querySelectorAll('#opts button').forEach(b => {
+      const v = Number(b.dataset.v);
+      b.setAttribute('aria-pressed', q.type === 'tags' ? (a || []).includes(v) : a === v);
+    });
+    if (q.type === 'tags') {
+      const c = document.getElementById('tagCount');
+      const k = (a || []).length;
+      c.className = 'tag-count' + (warn ? ' warn' : '');
+      c.textContent = warn ? '最多 ' + q.max + ' 個，先取消一個再換。' : '已選 ' + k + ' / ' + q.max + (k < q.min ? '（至少 ' + q.min + ' 個）' : '');
+    }
+    renderTop(state.step);
+  };
+  document.getElementById('opts').addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    const v = Number(b.dataset.v);
+    let warn = false;
+    if (q.type === 'tags') {
+      let cur = (ans(q.id) || []).slice();
+      if (cur.includes(v)) cur = cur.filter(x => x !== v);
+      else if (cur.length < q.max) cur.push(v);
+      else warn = true;
+      state.answers[q.id] = cur;
+    } else state.answers[q.id] = v;
+    save();
+    refresh(warn);
+  });
+  document.getElementById('back').onclick = () => move(-1);
+  next.onclick = () => move(1);
+  refresh();
+}
+
+/* ===== 說明書內容：依版本組出書頁 ===== */
+const seesAud = (v, aud) => v === 'full' || aud === 'all' ||
+  (v === 'family' && ['family', 'parent', 'student'].includes(aud)) || (v === 'coworker' && aud === 'coworker');
+
+function head(tag, title, sub, icon) {
+  return '<span class="page-tag">' + tag + '</span><h3>' + (icon || '') + title + '</h3><p class="sub">' + sub + '</p>';
+}
+function specHtml(q) {
+  const [value, todo] = specPick(q);
+  const v = ans(q.id);
+  return '<div class="spec"><p class="spec-name">' + esc(q.name) + '</p><p class="spec-value">' + esc(value) + '</p>' +
+    '<div class="meter-row"><span>' + esc(q.l) + '</span><div class="meter" role="img" aria-label="' + esc(q.l) + '到' + esc(q.r) + '，5 格中的第 ' + v + ' 格">' +
+    [1, 2, 3, 4, 5].map(i => '<i class="' + (i === v ? 'on' : '') + '"></i>').join('') + '</div><span>' + esc(q.r) + '</span></div>' +
+    '<p class="spec-do">' + ICON.arrow + '<span>' + esc(todo) + '</span></p></div>';
+}
+function boxHtml(label, text, whoTag) {
+  return '<div class="box">' + (whoTag ? '<span class="who">' + whoTag + '</span>' : '') + (label ? '<p class="label">' + label + '</p>' : '') + '<p>' + esc(text) + '</p></div>';
+}
+
+function quickCards(v) {
+  const cards = [];
+  const readers = VERSIONS[v].readers;
+  // 同一位讀者有好幾個地雷時，挑最專門寫給他的那一個
+  const landmine = r => tagsPicked('5-2').filter(it => it.to.includes(r)).sort((a, b) => a.to.length - b.to.length)[0];
+  if (readers.includes('parent')) {
+    const lm = landmine('parent');
+    const third = isHomeroom() ? oneText('3-4', 2) : lm ? (lm.card || lm.out) : specPick(qById('2-4'))[1];
+    cards.push({ r: 'parent', items: [
+      ['我會怎麼陪孩子', qById('1-1').card.parent[side(ans('1-1'))]],
+      ['找我最快的方法', oneText('2-1', 2) + oneText('2-3', 2)],
+      ['我在意的事', third] ] });
+  }
+  if (readers.includes('student')) {
+    const lm = landmine('student');
+    cards.push({ r: 'student', items: [
+      ['我會怎麼教你', qById('1-1').card.student[side(ans('1-1'))]],
+      ['找我最快的方法', oneText('2-2', 2)],
+      ['我在意的事', lm ? (lm.card || lm.out) : oneText('3-5')] ] });
+  }
+  if (readers.includes('coworker')) {
+    const lm = landmine('coworker');
+    const charge = tagsPicked('5-3').find(it => it.out);
+    const glow = tagsPicked('5-1')[0];
+    cards.push({ r: 'coworker', items: [
+      charge ? ['跟我變熟', charge.out] : ['讓我開心的事', glow ? (glow.outCo || glow.out) : ''],
+      ['一起做事', qById('4-2').card.coworker[side(ans('4-2'))]],
+      ['我在意的事', lm ? (lm.card || lm.out) : specPick(qById('4-4'))[1]] ] });
+  }
+  return cards;
+}
+function cardHtml(c) {
+  return '<div class="qcard"><span class="for">' + READER[c.r] + '</span><h4>關於我的 3 件事</h4><ol>' +
+    c.items.map(([b, s]) => '<li><div><b>' + b + '</b>' + esc(s) + '</div></li>').join('') +
+    '</ol><p class="sign">' + esc(state.name) + '</p></div>';
+}
+
+/* 回傳這個版本的書頁：[{ key, title, sub, html }] */
+function bookPages(v) {
+  const full = v === 'full';
+  const t = term(state.published);
+  const pages = [];
+  const add = (key, title, sub, inner) => { if (inner) pages.push({ key, title, sub, inner }); };
+
+  // 規格表
+  const specs = visibleQuestions().filter(q => q.type === 'spec' && seesAud(v, q.aud));
+  add('spec', '規格表', { family: '我上課和說話的樣子', coworker: '我工作和說話的樣子', full: '我上課、工作和說話的樣子' }[v],
+    head('SPEC', '規格表', { family: '我上課和說話的樣子', coworker: '我工作和說話的樣子', full: '我上課、工作和說話的樣子' }[v]) + specs.map(specHtml).join(''));
+
+  // 怎麼找我（家長學生）
+  if (v !== 'coworker') {
+    add('contact', '怎麼找我', '找我最快的方法', head('CONTACT', '怎麼找我', '找我最快的方法') +
+      boxHtml('', oneText('2-1'), '給家長') + boxHtml('', oneText('2-2'), '給學生') + boxHtml('多久會回', oneText('2-3')));
+    const rules = [['3-1', '給家長和學生'], ['3-2', '給家長'], ['3-3', '給家長'], ['3-4', '給家長'], ['3-5', '給學生']]
+      .filter(([id]) => visibleQuestions().some(q => q.id === id));
+    add('rules', '使用規則', '作業和聯絡的規則', head('RULES', '使用規則', '作業和聯絡的規則') +
+      rules.map(([id, w]) => boxHtml(esc(qById(id).q), oneText(id), w)).join(''));
+  }
+  // 一起工作（同事）
+  if (v !== 'family') {
+    add('work', '一起工作', '和我一起做事', head('TEAMWORK', '一起工作', '和我一起做事') +
+      boxHtml('我擅長的角色', oneText('4-1')) + (v === 'coworker' ? boxHtml('多久會回', oneText('2-3')) : ''));
+  }
+  // 最佳運作環境（發光）
+  const glow = tagsPicked('5-1');
+  add('glow', '最佳運作環境', '讓我發光的事', head('BEST SETTING', '最佳運作環境', '讓我發光的事') +
+    glow.map(it => boxHtml(full ? esc(it.self) : '', v === 'coworker' ? (it.outCo || it.out) : it.out)).join(''));
+
+  // ⚠ 注意事項（地雷）
+  const readers = VERSIONS[v].readers;
+  const mines = tagsPicked('5-2');
+  const shown = mines.filter(it => it.to.some(r => readers.includes(r)));
+  const selfNote = full ? '<p class="self-note"><b>寫給自己</b>' + mines.map(it => esc(it.self)).join('、') + '。</p>' : '';
+  if (shown.length || full) {
+    add('caution', '注意事項', '這樣做，我們會更合拍', head('CAUTION', '注意事項', '這樣做，我們會更合拍', ICON.caution) + selfNote +
+      shown.map(it => '<div class="warn-box"><div class="what">' + ICON.caution + esc(it.t) + '</div><div class="do"><small>這樣做最好（' +
+        it.to.filter(r => readers.includes(r)).map(r => READER[r]).join('、') + '）</small><p>' + esc(it.out) + '</p></div></div>').join(''));
+  }
+  // 充電方式（同事版、完整版）
+  if (v !== 'family') {
+    const charge = tagsPicked('5-3').filter(it => full || it.out);
+    add('charge', '充電方式', '我怎麼恢復電力', charge.length ? head('RECHARGE', '充電方式', '我怎麼恢復電力') +
+      charge.map(it => it.out ? boxHtml(full ? esc(it.self) : '', it.out) : boxHtml('', it.self)).join('') : '');
+  }
+  // 用戶好評
+  add('reviews', '用戶好評', '用過的人最常這樣說', head('REVIEWS', '用戶好評', '用過的人，最常這樣形容' + esc(state.name)) +
+    tagsPicked('6-1').map(it => '<div class="review"><span class="stars" aria-label="五顆星">★★★★★</span><p>' + esc(it.out) + '</p><small>' + esc(it.t) + '</small></div>').join(''));
+  // 快速上手卡
+  add('quick', '快速上手卡', '存成圖片，貼到 LINE', head('QUICK START', '快速上手卡', '存成圖片，貼到 LINE 群組') +
+    quickCards(v).map((c, i) => '<div class="qcard-wrap">' + cardHtml(c) +
+      '<button type="button" class="btn btn-ghost btn-small save-card" data-i="' + i + '">' + ICON.image + '存這張卡片</button></div>').join(''));
+  // 保固卡
+  add('warranty', '保固卡', '', head('WARRANTY', '保固卡', '說明書的有效期限') +
+    '<div class="warranty"><dl><dt>產品</dt><dd>' + esc(state.name) + '</dd><dt>型號</dt><dd>' + t.model + '・' + esc(who()) + '</dd>' +
+    '<dt>保固期間</dt><dd>' + t.text + '</dd><dt>出廠日期</dt><dd>' + esc(state.published) + '</dd></dl>' +
+    '<p>我會隨著時間改變。這本說明書，每學期更新一次。</p><p>相處不順的時候，直接來找我聊。</p></div>' +
+    '<p class="disclaimer">這是自我整理的小工具，不是心理測驗。</p>');
+
+  // 封面、產品簡介、目錄放最前面
+  const coverPage = { key: 'cover', title: '封面', cover: true, inner:
+    '<div class="bar-top"></div><div class="model"><small>MODEL</small><b>' + t.model + '</b></div>' +
+    '<div class="badge" aria-hidden="true"></div><div class="badge-text">先讀這本<br>相處更順</div>' +
+    '<h4><span>' + esc(state.name) + '</span>使用說明書</h4><p class="tagline">' + VERSIONS[v].cover + '</p>' +
+    '<dl><dt>型號</dt><dd>' + esc(who()) + '</dd><dt>版本</dt><dd>' + t.text + '</dd><dt>閱讀時間</dt><dd>約 3 分鐘</dd></dl>' };
+  const intro = { key: 'intro', title: '產品簡介', inner: head('ABOUT', '產品簡介', '先認識我') +
+    '<div class="lead"><p class="hello">嗨，我是' + esc(state.name) + '。</p><p>我是' + esc(who()) + '。</p>' +
+    '<p>這本說明書，寫的是跟我相處最順的方法。</p><p>花 3 分鐘讀完，我們會更合拍。</p>' +
+    (full ? '<p>這本是完整版，也有寫給自己的話。</p>' : '') + '</div>' };
+  const startNo = 4;
+  const toc = { key: 'toc', title: '目錄', inner: head('CONTENTS', '目錄', '這本說明書有這些') +
+    '<ol class="ptoc">' + pages.map((p, i) => '<li><span>' + p.title + (p.sub ? '<small>' + p.sub + '</small>' : '') + '</span><span class="pn">P.' + (startNo + i) + '</span></li>').join('') + '</ol>' };
+  return [coverPage, intro, toc, ...pages];
+}
+
+function pageHtml(p, i, total, v) {
+  const foot = p.key === 'warranty' ? '說明書設計：伯爵紅茶｜@goodthings.jpg' : p.cover ? VERSIONS[v].label : esc(state.name) + ' 的使用說明書';
+  return '<section class="page' + (p.cover ? ' pg-cover cover-' + state.cover : '') + '" data-key="' + p.key + '" aria-label="' + p.title + '">' +
+    p.inner + '<div class="page-foot"><span class="pn">P.' + (i + 1) + ' / ' + total + '</span><span>' + foot + '</span></div></section>';
+}
+
+/* ===== 成品畫面：翻頁 ===== */
+let view = 0;
+const wideScreen = () => window.matchMedia('(min-width: 900px)').matches;
+function viewsFor(n) {
+  if (!wideScreen()) return Array.from({ length: n }, (_, i) => [i]);
+  const out = [[0]];
+  for (let i = 1; i < n; i += 2) out.push(i + 1 < n ? [i, i + 1] : [i]);
+  return out;
+}
+
+function renderDone() {
+  const v = state.version;
+  const pages = bookPages(v);
+  screen.innerHTML =
+    '<h1>你的說明書完成了</h1>' +
+    '<p class="hint">選一個版本，翻翻看，再存下來分享。</p>' +
+    '<div class="vtabs" role="tablist" id="vtabs">' +
+      Object.entries(VERSIONS).map(([k, x]) => '<button type="button" class="vtab" role="tab" data-v="' + k + '" aria-selected="' + (v === k) + '">' + x.label + '</button>').join('') +
+    '</div>' +
+    '<div class="spread" id="spread">' + pages.map((p, i) => pageHtml(p, i, pages.length, v)).join('') + '</div>' +
+    '<nav class="pager" aria-label="翻頁"><button type="button" class="btn btn-ghost" id="prev">' + ICON.back + '上一頁</button>' +
+      '<div class="mid"><div class="dots" id="dots" aria-hidden="true"></div><div class="pageno" id="pageno"></div></div>' +
+      '<button type="button" class="btn btn-primary" id="nextPg">下一頁' + ICON.right + '</button></nav>' +
+    '<div class="export">' +
+      '<button type="button" class="btn btn-ghost" id="toImg">' + ICON.image + '存這一頁</button>' +
+      '<button type="button" class="btn btn-primary" id="toPdf">' + ICON.pdf + '存整本 PDF</button>' +
+    '</div>' +
+    '<p class="notice">說明書只存在這台裝置。換手機或清除瀏覽器資料就會不見，記得存下來。</p>' +
+    '<div class="after">' +
+      '<button type="button" class="btn-link" id="edit">回目錄改答案</button>' +
+      '<button type="button" class="btn btn-danger" id="reset">' + ICON.trash + '重新寫一本</button>' +
+    '</div>';
+
+  const spread = document.getElementById('spread');
+  const els = [...spread.querySelectorAll('.page')];
+  const show = dir => {
+    const vs = viewsFor(els.length);
+    view = Math.max(0, Math.min(view, vs.length - 1));
+    els.forEach((p, i) => {
+      const on = vs[view].includes(i);
+      p.hidden = !on;
+      p.classList.remove('flip-next', 'flip-prev');
+      if (on && dir) { void p.offsetWidth; p.classList.add(dir > 0 ? 'flip-next' : 'flip-prev'); }
+    });
+    spread.classList.toggle('two', vs[view].length === 2);
+    document.getElementById('prev').disabled = view === 0;
+    document.getElementById('nextPg').disabled = view === vs.length - 1;
+    document.getElementById('dots').innerHTML = vs.map((_, i) => '<i class="' + (i === view ? 'on' : '') + '"></i>').join('');
+    document.getElementById('pageno').textContent = vs[view].map(i => i + 1).join('–') + ' / ' + els.length;
+  };
+  const flip = d => {
+    const n = view + d;
+    if (n < 0 || n >= viewsFor(els.length).length) return;
+    view = n; show(d);
+    const top = spread.getBoundingClientRect().top;
+    if (top < 0) window.scrollBy({ top: top - 16 });
+  };
+  document.getElementById('prev').onclick = () => flip(-1);
+  document.getElementById('nextPg').onclick = () => flip(1);
+  pagerKeys = e => {
+    if (!overlay.hidden || state.step !== 'done') return;
+    if (e.key === 'ArrowRight') flip(1);
+    if (e.key === 'ArrowLeft') flip(-1);
+  };
+  let x0 = null;
+  spread.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  spread.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 50) flip(dx < 0 ? 1 : -1);
+    x0 = null;
+  });
+  onResize = () => {
+    // 換排版時停在同一頁內容
+    const first = (wasWide ? wideViews(els.length) : els.map((_, i) => [i]))[view][0];
+    view = viewsFor(els.length).findIndex(x => x.includes(first));
+    show(0);
+  };
+  show(0);
+
+  document.getElementById('vtabs').addEventListener('click', e => {
+    const b = e.target.closest('.vtab');
+    if (!b || b.dataset.v === state.version) return;
+    const key = els[viewsFor(els.length)[view][0]].dataset.key;
+    state.version = b.dataset.v; save();
+    renderDone();
+    // 換版本後盡量停在同一種頁面
+    const now = [...document.querySelectorAll('#spread .page')];
+    const idx = Math.max(0, now.findIndex(p => p.dataset.key === key));
+    view = viewsFor(now.length).findIndex(x => x.includes(idx));
+    document.querySelector('#vtabs [aria-selected="true"]').focus();
+    showCurrent();
+  });
+  showCurrent = () => show(0);
+  spread.addEventListener('click', e => {
+    const b = e.target.closest('.save-card');
+    if (b) exportCard(Number(b.dataset.i));
+  });
+  document.getElementById('toImg').onclick = () => exportPage();
+  document.getElementById('toPdf').onclick = () => exportPdf();
+  document.getElementById('edit').onclick = () => go('toc');
+  document.getElementById('reset').onclick = confirmReset;
+}
+let pagerKeys = null, onResize = null, showCurrent = () => {};
+document.addEventListener('keydown', e => { if (pagerKeys) pagerKeys(e); });
+const wideViews = n => { const out = [[0]]; for (let i = 1; i < n; i += 2) out.push(i + 1 < n ? [i, i + 1] : [i]); return out; };
+let wasWide = wideScreen();
+window.addEventListener('resize', () => {
+  if (wideScreen() === wasWide) return;
+  if (state.step === 'done' && onResize) onResize();
+  wasWide = wideScreen();
+});
+
+/* ===== 對話框 ===== */
+const overlay = document.getElementById('overlay');
+const dialog = document.getElementById('dialog');
+let lastFocus = null;
+function openDialog(html) {
+  lastFocus = document.activeElement;
+  dialog.innerHTML = html;
+  overlay.hidden = false;
+  const f = dialog.querySelector('button, a');
+  if (f) f.focus();
+  const c = document.getElementById('close');
+  if (c) c.onclick = closeDialog;
+}
+function closeDialog() {
+  overlay.hidden = true;
+  dialog.innerHTML = '';
+  if (lastFocus) lastFocus.focus();
+}
+overlay.addEventListener('click', e => { if (e.target === overlay) closeDialog(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !overlay.hidden) closeDialog(); });
+
+function confirmReset() {
+  openDialog(
+    '<h2>確定要重新寫一本嗎？</h2>' +
+    '<p>目前這本說明書的答案會全部清掉，沒辦法復原。建議先存成 PDF。</p>' +
+    '<div class="row"><button type="button" class="btn btn-ghost" id="close">先不要</button>' +
+    '<button type="button" class="btn btn-danger" id="ok">' + ICON.trash + '清掉重寫</button></div>');
+  document.getElementById('ok').onclick = () => { state = blank(); save(); closeDialog(); go('setup'); };
+}
+
+/* ===== 匯出：圖片與 PDF ===== */
+const LIBS = {
+  html2canvas: 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+  jspdf: 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
+};
+const loaded = {};
+function loadScript(src) {
+  if (!loaded[src]) loaded[src] = new Promise((ok, fail) => {
+    const s = document.createElement('script');
+    s.src = src; s.onload = ok; s.onerror = () => { delete loaded[src]; fail(new Error('load')); };
+    document.head.appendChild(s);
+  });
+  return loaded[src];
+}
+// LINE、Facebook、Instagram 的內建瀏覽器常常不能直接下載檔案
+const inApp = /Line\/|FBAN|FBAV|Instagram/i.test(navigator.userAgent);
+const stage = document.getElementById('exportStage');
+
+async function snap(html) {
+  await loadScript(LIBS.html2canvas);
+  stage.innerHTML = html;
+  stage.querySelectorAll('.save-card').forEach(b => b.remove());
+  if (document.fonts && document.fonts.ready) await document.fonts.ready;
+  try {
+    return await html2canvas(stage, { scale: 2, backgroundColor: getComputedStyle(document.body).getPropertyValue('--color-bg').trim() || '#EBEBDF', useCORS: true, logging: false });
+  } finally {
+    stage.innerHTML = '';
+  }
+}
+const fileBase = () => state.name + '的使用說明書-' + VERSIONS[state.version].label;
+
+function showImage(canvas, name) {
+  const url = canvas.toDataURL('image/png');
+  openDialog(
+    '<h2>圖片好了</h2>' +
+    '<p class="hint" style="margin:0">' + (inApp ? '在 LINE 或 FB 裡請<b>長按圖片</b>儲存；或點右上角「用瀏覽器開啟」再下載。' : '按下載，或在手機上長按圖片儲存。') + '</p>' +
+    '<img src="' + url + '" alt="' + esc(name) + '">' +
+    '<div class="row"><button type="button" class="btn btn-ghost" id="close">關閉</button>' +
+    '<a class="btn btn-primary" href="' + url + '" download="' + esc(name) + '.png">' + ICON.image + '下載圖片</a></div>');
+}
+function showError() {
+  openDialog(
+    '<h2>存檔沒有成功</h2>' +
+    '<p class="error-msg">' + ICON.alert + '<span>可能是網路不穩，存檔工具沒有載入成功。</span></p>' +
+    '<p>確認網路後再試一次；如果還是不行，可以先用手機截圖保存。</p>' +
+    '<div class="row"><button type="button" class="btn btn-primary" id="close">知道了</button></div>');
+}
+const working = () => openDialog('<h2>正在準備…</h2><div class="spinner" role="status" aria-label="處理中"></div>');
+
+async function exportPage() {
+  const els = [...document.querySelectorAll('#spread .page')];
+  const idx = viewsFor(els.length)[view];
+  working();
+  try {
+    const canvas = await snap(idx.map(i => els[i].outerHTML.replace(/ hidden=""/, '').replace(/flip-(next|prev)/g, '')).join(''));
+    showImage(canvas, fileBase() + '-P' + idx.map(i => i + 1).join('-'));
+  } catch (e) { showError(); }
+}
+async function exportCard(i) {
+  const c = quickCards(state.version)[i];
+  working();
+  try {
+    const canvas = await snap('<div class="card-stage">' + cardHtml(c) + '</div>');
+    showImage(canvas, state.name + '-快速上手卡-' + READER[c.r]);
+  } catch (e) { showError(); }
+}
+async function exportPdf() {
+  const v = state.version;
+  const pages = bookPages(v);
+  working();
+  try {
+    await loadScript(LIBS.jspdf);
+    const { jsPDF } = window.jspdf;
+    let pdf = null;
+    for (let i = 0; i < pages.length; i++) {
+      const canvas = await snap(pageHtml(pages[i], i, pages.length, v));
+      const w = canvas.width / 2, h = canvas.height / 2;
+      const o = h > w ? 'portrait' : 'landscape';
+      if (!pdf) pdf = new jsPDF({ unit: 'px', format: [w, h], orientation: o, hotfixes: ['px_scaling'] });
+      else pdf.addPage([w, h], o);
+      pdf.addImage(canvas.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, w, h);
+    }
+    pdf.save(fileBase() + '.pdf');
+    openDialog(
+      '<h2>PDF 好了</h2>' +
+      '<p>' + (inApp ? '如果沒有開始下載，是因為 LINE／FB 的內建瀏覽器不支援。請點右上角「用瀏覽器開啟」，再按一次「存整本 PDF」。' : '一頁書頁就是一頁 PDF。檔案已經開始下載，可以到「下載」資料夾找找看。') + '</p>' +
+      '<div class="row"><button type="button" class="btn btn-primary" id="close">好</button></div>');
+  } catch (e) { showError(); }
+}
+
+render();
+</script>
+</body>
+</html>
